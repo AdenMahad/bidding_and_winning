@@ -1,0 +1,19 @@
+{% block content %}
+<h1>{{ item.name }}</h1>
+<p>{{ item.description }}</p>
+<p>Starting bid: {{ item.starting_bid }}</p>
+<p>Current bid: {{ item.current_bid }}</p>
+<img src="{{ item.image.url }}" alt="{{ item.name }}" style="">
+<h2>Bids</h2>
+<ul>
+{% for bid in bids %}
+    <li>{{ bid.amount }} by {{ bid.bidder.username }}</li>
+{% endfor %}
+</ul>
+<h2>Place new bid</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Bid</button>
+</form>
+{% endblock content %}
