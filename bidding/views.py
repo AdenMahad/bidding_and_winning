@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect
+from  django.urls import reverse_lazy
 from .models import Category, Item, Bid
 from .forms import ItemForm, BidForm
+from django.views.generic import DeleteView,UpdateView
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+
+
 
 # Create your views here.
 
@@ -19,6 +25,13 @@ def item_create(request):
     else:
         form = ItemForm()
     return render(request, 'item_create.html', {'form': form})
+
+class ItemUpdateView(UpdateView):
+    model = Item
+    template_name = 'item_update.html'
+    fields =['name','description','image','starting_bid']
+
+
 
 def item_detail(request, pk):
     item = Item.objects.get(pk=pk)
@@ -39,4 +52,41 @@ def item_detail(request, pk):
     else:
         form = BidForm()
     return render(request, 'item_detail.html', {'item': item, 'bids': bids, 'form': form})
+
+class ItemDeleteView(DeleteView):
+    model = Item
+    template_name = "item_delete.html"
+    success_url = reverse_lazy('item_list')
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('item_list')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('item_list')
+        else:
+            # Return an 'invalid login' error message.
+            pass
+    return render(request, 'login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('item_list')
+
 

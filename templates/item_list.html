@@ -1,3 +1,16 @@
+{% if user.is_authenticated %}
+  <div style="display: inline-block; float:right; margin-right:40px; ">
+  <a href="{% url 'logout' %}"><button class="btn btn-primary btn sm" style="margin-top:6px; width:70px; background-color:#43a3ef; margin-left-60px; color:#fce667;" >logout</button></a>
+  {% comment %} <strong style="color:#43a3ef; margin-bottom:5px;">Hello, {{ user.username }}</strong> {% endcomment %}
+
+</div>
+{% else %}
+<div style="display: inline-block; float:right; margin-right:35px; margin-top:6px;">
+<a href="{% url 'login' %}"><button class="btn btn-primary " style="width:70px; background-color:#43a3ef;  color:#fce667;" type="submit">login</button></a>
+<a href="{% url 'signup' %}"><button class="btn btn-primary btn sm" style="width:70px; color:#fce667; background-color:#43a3ef; margin-left-60px;" >signup</button></a>
+</div>
+{% endif %}
+
 <h1>Items</h1>
 <ul>
 {% for item in items %}
@@ -5,3 +18,4 @@
 {% endfor %}
 </ul>
 <a href="{% url 'item_create' %}">Post new item</a>
+
