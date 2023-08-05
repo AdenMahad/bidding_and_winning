@@ -1,3 +1,13 @@
+{% extends 'baselayout.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+</head>
+<body>
 {% block content %}
 <h1>{{ item.name }}</h1>
 <p>{{ item.description }}</p>
@@ -15,8 +25,12 @@
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Bid</button>
+{% if is_owner %}
 </form>
 <a href="{% url 'item_delete' item.pk %}">delete item</a>
 <a href="{% url 'item_update' item.pk %}">update item</a>
+{% endif %}
+{% endblock %}
 
-{% endblock content %}
+</body>
+</html>

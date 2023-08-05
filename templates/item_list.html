@@ -1,21 +1,47 @@
-{% if user.is_authenticated %}
-  <div style="display: inline-block; float:right; margin-right:40px; ">
-  <a href="{% url 'logout' %}"><button class="btn btn-primary btn sm" style="margin-top:6px; width:70px; background-color:#43a3ef; margin-left-60px; color:#fce667;" >logout</button></a>
-  {% comment %} <strong style="color:#43a3ef; margin-bottom:5px;">Hello, {{ user.username }}</strong> {% endcomment %}
+{% extends 'baselayout.html' %}
 
-</div>
-{% else %}
-<div style="display: inline-block; float:right; margin-right:35px; margin-top:6px;">
-<a href="{% url 'login' %}"><button class="btn btn-primary " style="width:70px; background-color:#43a3ef;  color:#fce667;" type="submit">login</button></a>
-<a href="{% url 'signup' %}"><button class="btn btn-primary btn sm" style="width:70px; color:#fce667; background-color:#43a3ef; margin-left-60px;" >signup</button></a>
-</div>
-{% endif %}
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body style="overflow: auto;">
+  {% block content %}
 <h1>Items</h1>
-<ul>
-{% for item in items %}
-    <li><a href="{% url 'item_detail' item.pk %}">{{ item.name }}</a></li>
-{% endfor %}
-</ul>
-<a href="{% url 'item_create' %}">Post new item</a>
+<br>
+<br>
+<div class="container">
+  <div class="row row-cols-3 g-4">
+  {% for item in items %}
+    
+      
+          <div class="col-6 col-md-4">
+            <div class="card shadow p-0.5 mb-5 bg-body rounded" style="border: solid green 0.5px;">
+            <img class="card-img-top " src="{{ item.image.url }}" style="max-height:300px;">
+            <div class="card-body">
+            <h4class ="card-title" {{ item.name }}></h4>
+            <h5><p class ="card-text">{{ item.description }}</p></h5>
+            <hr>
+            <h6><p class="card-text">Starting bid: {{ item.starting_bid }}</p></h6>
+           <h6><p class="card-text">Current bid: {{ item.current_bid }}</p></h6>
+           <hr>
+           <a class="btn btn-success" href="{% url 'item_detail' item.pk %}">Take a look</a>
+          </div>
+        </div>
+        </div>
+      
+  {% endfor %}
+</div>
+</div>
+  {% if user.is_authenticated %}
+  <a href="{% url 'item_create' %}">Post new item</a>
+  {% endif %}
+
+{% endblock %}
+</body>
+</html>
+
 

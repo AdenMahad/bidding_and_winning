@@ -1,3 +1,8 @@
+{% extends 'baselayout.html' %}
+{% block content %}
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
 <form action="{% url 'login' %}" method="POST">{% csrf_token %}
     <div class="form-group">
       <label style="color:#43a3ef;" for="Username">Username</label>
@@ -7,5 +12,7 @@
       <label style="color:#43a3ef;" for="Password">Password</label>
       <input type="password" name="password" class="form-control"  placeholder="Enter Password">
     </div>
+    <br>
     <button style="background-color:#43a3ef" type="submit" class="btn btn-primary">Login</button>
   </form>
+  {% endblock  %}

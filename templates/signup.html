@@ -1,4 +1,8 @@
-<form action="" method="post"> {% csrf_token %}
-    {{ form.as_p }}
+{% extends 'baselayout.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form class="form-group" action="" method="post"> {% csrf_token %}
+    {{ form|crispy }}
     <input style="background-color:#43a3ef" class="btn btn-primary" type="submit" value="signup">
     </form>
+    {% endblock  %}
