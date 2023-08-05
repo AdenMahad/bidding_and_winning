@@ -1,8 +1,14 @@
 {% extends 'baselayout.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<form class="form-group" action="" method="post"> {% csrf_token %}
-    {{ form|crispy }}
-    <input style="background-color:#43a3ef" class="btn btn-primary" type="submit" value="signup">
-    </form>
-    {% endblock  %}
+<div class="card mx-auto shadow p-0.5 mb-5 bg-body rounded h-50" style="width: 40%; margin-top:100px;">
+    <div class="card-body">
+        
+        <form class="form-group" action="" method="post"> {% csrf_token %}
+            {{ form|crispy }}
+            <input style="background-color:#43a3ef" class="btn btn-primary" type="submit" value="signup">
+            </form>
+            
+    </div>
+  </div>
+  {% endblock  %}

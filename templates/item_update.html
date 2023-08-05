@@ -1,5 +1,15 @@
-<h1>Edit post</h1>
-<form action="" method="post">{% csrf_token %}
-{{ form.as_p }}
-<input style="background-color:#43a3ef" class="btn btn-primary" type="submit" value="Update">
-</form>
+{% extends 'baselayout.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card mx-auto shadow p-0.5 mb-5 bg-body rounded" style="width: 40%;">
+    <div class="card-body">
+        <h1 style="color:green;">Edit post</h1>
+        <form action="" method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <br>
+            <input style="background-color:#43a3ef" class="btn btn-primary" type="submit" value="Update">
+            </form>
+    </div>
+  </div>
+
+{% endblock content %}

@@ -1,7 +1,16 @@
+{% extends 'baselayout.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
-<h1>Delete post</h1>
-<form action="" method="post">{% csrf_token %}
-<p>Are you sure you want to delete?</p>
-<input class="btn btn-danger" type="submit" value="Confirm">
-</form>
+
+<div class="card mx-auto shadow p-0.5 mb-5 bg-body rounded" style="width: 40%;">
+    <div class="card-body">
+        <h1 style="color:red;">Delete post</h1>
+        <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to delete?</p>
+        <input class="btn btn-danger" type="submit" value="Confirm">
+        </form>
+    </div>
+  </div>
+
+
 {% endblock  %}

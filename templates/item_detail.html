@@ -1,4 +1,5 @@
 {% extends 'baselayout.html' %}
+{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,11 +10,13 @@
 </head>
 <body>
 {% block content %}
-<h1>{{ item.name }}</h1>
-<p>{{ item.description }}</p>
-<p>Starting bid: {{ item.starting_bid }}</p>
+<div class="card mx-auto shadow p-0.5 mb-5 bg-body rounded h-100" style="width: 60%;">
+  <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}" style="">
+  <div class="card-body">
+    <h5 class="card-title">{{ item.name }}</h5>
+    <p class="card-text">{{ item.description }}</p>
+    <p>Starting bid: {{ item.starting_bid }}</p>
 <p>Current bid: {{ item.current_bid }}</p>
-<img src="{{ item.image.url }}" alt="{{ item.name }}" style="">
 <h2>Bids</h2>
 <ul>
 {% for bid in bids %}
@@ -23,13 +26,21 @@
 <h2>Place new bid</h2>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Bid</button>
-{% if is_owner %}
+  {{ form|crispy }}
+  <br>
+  <button class="btn btn-primary" type="submit">Bid</button>
 </form>
-<a href="{% url 'item_delete' item.pk %}">delete item</a>
-<a href="{% url 'item_update' item.pk %}">update item</a>
+<br>
+{% if is_owner %}
+<a href="{% url 'item_delete' item.pk %}" class="btn btn-primary" >delete item</a>
+<a href="{% url 'item_update' item.pk %}" class="btn btn-primary" >update item</a>
 {% endif %}
+    
+  </div>
+</div>
+
+
+
 {% endblock %}
 
 </body>

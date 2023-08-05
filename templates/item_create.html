@@ -1,6 +1,16 @@
-<h1>Post New Item</h1>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Post</button>
-</form>
+{% extends 'baselayout.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="card mx-auto shadow p-0.5 mb-5 bg-body rounded h-50" style="width: 60%;">
+  <h1 style="color:green;">Post New Item</h1>
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <br>
+      <button class="btn btn-primary" type="submit">Post</button>
+    </form>
+  </div>
+</div>
+{% endblock  %}
