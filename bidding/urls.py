@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ItemDeleteView,signup,login_view,logout_view,ItemUpdateView
+from .views import ItemDeleteView,signup,login_view,logout_view,ItemUpdateView,item_catagory,CategoryListView,search
 
 
 
@@ -13,6 +13,11 @@ urlpatterns = [
     path('login/',login_view,name="login"),
     path('logout/',logout_view,name="logout"),
     path('<int:pk>/update', ItemUpdateView.as_view(), name ='item_update'),
+    path('categories/<int:id>', views.item_catagory, name='item_category'),
+    path('categories/', CategoryListView.as_view(), name='category_list'),
+    path("search_results", views.search, name="results"),
+
+
 
 
 ]

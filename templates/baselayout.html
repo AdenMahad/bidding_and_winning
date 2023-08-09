@@ -28,20 +28,9 @@
         <a class="nav-link active" aria-current="page" href="{% url 'item_list' %}">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="{% url 'category_list' %}">categories</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
+      
       <li class="nav-item" id="authentication">
         {% if user.is_authenticated %}
         <div>
@@ -60,8 +49,8 @@
       {% endif %}
       </li>
     </ul>
-    <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" style="border:solid #5cb85c;" placeholder="Search" aria-label="Search">
+    <form class="d-flex" role="search" action="{% url 'results' %}" method="get">
+      <input class="form-control me-2" type="search" style="border:solid #5cb85c;" name="q" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" style="background-color:#5cb85c;color:white;" type="submit">Search</button>
     </form>
   </div>

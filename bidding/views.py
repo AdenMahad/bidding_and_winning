@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from  django.urls import reverse_lazy
 from .models import Category, Item, Bid
 from .forms import ItemForm, BidForm
-from django.views.generic import DeleteView,UpdateView
+from django.views.generic import DeleteView,UpdateView,ListView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import PermissionDenied
@@ -15,6 +15,16 @@ from django.core.exceptions import PermissionDenied
 def item_list(request):
     items = Item.objects.all()
     return render(request, 'item_list.html', {'items': items})
+
+class CategoryListView(ListView):
+    # This view will display a list of categories
+    model = Category
+    template_name = "category_list.html"
+
+def item_catagory(request, id):
+    items= Item.objects.filter(category=Category.objects.get(id=id))
+    return render(request, 'category.html', {'items': items})
+    
 
 def item_create(request):
     if request.method == 'POST':
@@ -79,6 +89,16 @@ class ItemDeleteView(DeleteView):
         if item.seller != self.request.user:
             raise PermissionDenied()
         return item
+
+def search(request):
+    query = request.GET.get('q')
+    if  Item.objects.filter(name__exact=query):
+        result = Item.objects.get(name=query)
+        return render(request,"results.html",{"result":result})
+    else:
+       recommended = Item.objects.filter(name__icontains=query)
+       return render(request,"recommended.html",{"recommendations":recommended})
+
 
 def signup(request):
     if request.method == 'POST':
