@@ -1,0 +1,15 @@
+{% extends 'baselayout.html' %}
+
+{% block content %}
+{% for category in object_list %}
+<div class="card mx-auto shadow p-0.5 mb-5 bg-body rounded h-50" style="width: 60%;">
+    <img class="card-img-top " src="{{ category.image.url }}">
+
+    <div class="card-body">
+
+        <a href="{% url 'item_category' category.id %}"><h3>{{category.name}}</h3></a>
+        <h4>{{category.description}}</h4>
+    </div>
+  </div>
+{% endfor %}
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends 'baselayout.html' %}
+{% block content %}
+<div class="container">
+    <div class="row row-cols-3 g-4">
+    {% for item in items %}
+      
+        
+            <div class="col-6 col-md-4">
+              <div class="card shadow p-0.5 mb-5 bg-body rounded" style="border: solid green 0.5px;">
+              <img class="card-img-top " src="{{ item.image.url }}" style="max-height:300px;">
+              <div class="card-body">
+              <h4class ="card-title" {{ item.name }}></h4>
+              <h5><p class ="card-text">{{ item.description }}</p></h5>
+              <hr>
+              <h6><p class="card-text">Starting bid: {{ item.starting_bid }}</p></h6>
+             <h6><p class="card-text">Current bid: {{ item.current_bid }}</p></h6>
+             <hr>
+             <a class="btn btn-success" href="{% url 'item_detail' item.pk %}">Take a look</a>
+            </div>
+          </div>
+          </div>
+        
+    {% endfor %}
+  </div>
+  </div>
+
+{% endblock  %}
