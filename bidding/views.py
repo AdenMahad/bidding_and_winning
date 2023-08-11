@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from  django.urls import reverse_lazy
 from .models import Category, Item, Bid
 from .forms import ItemForm, BidForm
@@ -6,7 +6,10 @@ from django.views.generic import DeleteView,UpdateView,ListView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import PermissionDenied
-
+from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.decorators.http import require_POST
+from django.contrib import messages
 
 
 
@@ -57,8 +60,11 @@ def is_item_owner (user, item_id):
 def item_detail(request, pk):
     item = Item.objects.get(pk=pk)
     is_owner = is_item_owner (request.user, item.pk)
+    
     bids = Bid.objects.filter(item=item)
     if request.method == 'POST':
+        if is_owner or not item.isActive:
+            return HttpResponseForbidden()
         form = BidForm(request.POST)
         if form.is_valid():
             bid = form.save(commit=False)
@@ -77,8 +83,28 @@ def item_detail(request, pk):
                 
     else:
         form = BidForm()
+        highest_bid = Bid.objects.filter(item=item).order_by('-amount').first()
+        if highest_bid:
+            bidder = highest_bid.bidder
+            bidder_username = bidder.username
+            if request.user == bidder:
+                message = f'Congratulations {bidder_username}! You have won {item.name} with a bid of {item.current_bid}.'
+                messages.success(request, message)
         
     return render(request, 'item_detail.html', {'item': item, 'bids': bids, 'form': form, 'is_owner': is_owner})
+@login_required # new view function
+@require_POST
+def close_item(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+    is_owner = is_item_owner (request.user, item.pk)
+    if is_owner == False:
+            return HttpResponseForbidden()
+    # set item as inactive
+    else:
+        item.isActive = False
+        item.save()
+        # redirect to same page with confirmation message
+        return redirect('item_detail', pk=pk)
 
 class ItemDeleteView(DeleteView):
     model = Item

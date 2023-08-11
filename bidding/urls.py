@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ItemDeleteView,signup,login_view,logout_view,ItemUpdateView,item_catagory,CategoryListView,search
+from .views import ItemDeleteView,signup,login_view,logout_view,ItemUpdateView,item_catagory,CategoryListView,search,close_item
 
 
 
@@ -16,6 +16,8 @@ urlpatterns = [
     path('categories/<int:id>', views.item_catagory, name='item_category'),
     path('categories/', CategoryListView.as_view(), name='category_list'),
     path("search_results", views.search, name="results"),
+    path('<int:pk>/close/', views.close_item, name='close_item'),
+    
 
 
 

@@ -1,6 +1,7 @@
 {% extends 'baselayout.html' %}
 {% load crispy_forms_tags %}
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,11 +32,28 @@
   <button class="btn btn-primary" type="submit">Bid</button>
 </form>
 <br>
+
 {% if is_owner %}
+{% if item.isActive %}
+    <form action="{% url 'close_item' item.pk %}" method="post">{% csrf_token %}
+      
+      <button class="btn btn-danger" type="submit">Close bidding</button>
+      
+    </form>
+  {% endif %}
+  <br>
 <a href="{% url 'item_delete' item.pk %}" class="btn btn-primary" >delete item</a>
 <a href="{% url 'item_update' item.pk %}" class="btn btn-primary" >update item</a>
 {% endif %}
-    
+<br>
+{% if item.isActive == False %}
+<p>This item is no longer active.</p>
+<div class="messages">
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+</div>
+{% endif %}
   </div>
 </div>
 
