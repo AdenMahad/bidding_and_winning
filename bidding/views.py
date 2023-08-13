@@ -87,7 +87,7 @@ def item_detail(request, pk):
         if highest_bid:
             bidder = highest_bid.bidder
             bidder_username = bidder.username
-            if request.user == bidder:
+            if request.user == bidder and item.isActive == False:
                 message = f'Congratulations {bidder_username}! You have won {item.name} with a bid of {item.current_bid}.'
                 messages.success(request, message)
         
